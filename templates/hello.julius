@@ -1,0 +1,1 @@
+document.write("Written by Javascript!".fontsize(5));
