@@ -1,113 +1,29 @@
-name:              HelloYesod
-version:           0.0.0
-cabal-version:     >= 1.8
-build-type:        Simple
+Name:                HelloYesod
+Version:             0.1
+Synopsis:            Project Synopsis Here
+Description:         Project Description Here
+License:             AllRightsReserved
+Author:              Author
+Maintainer:          maintainer@example.com
+Stability:           Experimental
+Category:            Web
+Build-type:          Simple
+Cabal-version:       >=1.2
 
-Flag dev
-    Description:   Turn on development settings, like auto-reload templates.
-    Default:       False
+Executable HelloYesod
+  hs-source-dirs: src
+  main-is: Main.hs
 
-Flag library-only
-    Description:   Build for use with "yesod devel"
-    Default:       False
+  Build-depends:
+    base                      >= 4     && < 5,
+    bytestring                >= 0.9.1 && < 0.11,
+    MonadCatchIO-transformers >= 0.2.1 && < 0.4,
+    mtl                       >= 2     && < 3,
+    snap-core                 >= 0.9   && < 0.10,
+    snap-server               >= 0.9   && < 0.10
 
-library
-    exposed-modules: Application
-                     Foundation
-                     Import
-                     Settings
-                     Settings.StaticFiles
-                     Settings.Development
-                     Handler.Home
-                     Handler.Hello
-
-    if flag(dev) || flag(library-only)
-        cpp-options:   -DDEVELOPMENT
-        ghc-options:   -Wall -fwarn-tabs -O0
-    else
-        ghc-options:   -Wall -fwarn-tabs -O2
-
-    extensions: TemplateHaskell
-                QuasiQuotes
-                OverloadedStrings
-                NoImplicitPrelude
-                CPP
-                MultiParamTypeClasses
-                TypeFamilies
-                GADTs
-                GeneralizedNewtypeDeriving
-                FlexibleContexts
-                EmptyDataDecls
-                NoMonomorphismRestriction
-                DeriveDataTypeable
-                ViewPatterns
-                TupleSections
-
-    build-depends: base                          >= 4          && < 5
-                 , yesod                         >= 1.4.0      && < 1.5
-                 , yesod-core                    >= 1.4.0      && < 1.5
-                 , yesod-auth                    >= 1.4.0      && < 1.5
-                 , yesod-static                  >= 1.4.0      && < 1.5
-                 , yesod-form                    >= 1.4.0      && < 1.5
-                 , bytestring                    >= 0.9        && < 0.11
-                 , text                          >= 0.11       && < 2.0
-                 , template-haskell
-                 , shakespeare                   >= 2.0        && < 2.1
-                 , hjsmin                        >= 0.1        && < 0.2
-                 , monad-control                 >= 0.3        && < 0.4
-                 , wai-extra                     >= 3.0        && < 3.1
-                 , yaml                          >= 0.8        && < 0.9
-                 , http-conduit                  >= 2.1        && < 2.2
-                 , directory                     >= 1.1        && < 1.3
-                 , warp                          >= 3.0        && < 3.1
-                 , data-default
-                 , aeson                         >= 0.6        && < 0.9
-                 , conduit                       >= 1.0        && < 2.0
-                 , monad-logger                  >= 0.3        && < 0.4
-                 , fast-logger                   >= 2.2        && < 2.3
-                 , wai-logger                    >= 2.2        && < 2.3
-
-    -- see https://github.com/yesodweb/yesod/issues/814
-    if !os(windows)
-        build-depends: unix
-
-executable         HelloYesod
-    if flag(library-only)
-        Buildable: False
-
-    main-is:           main.hs
-    hs-source-dirs:    app
-    build-depends:     base
-                     , HelloYesod
-                     , yesod
-
-    ghc-options:       -threaded -O2 -rtsopts -with-rtsopts=-N
-
-test-suite test
-    type:              exitcode-stdio-1.0
-    main-is:           Spec.hs
-    hs-source-dirs:    test
-    ghc-options:       -Wall
-
-    extensions: TemplateHaskell
-                QuasiQuotes
-                OverloadedStrings
-                NoImplicitPrelude
-                CPP
-                MultiParamTypeClasses
-                TypeFamilies
-                GADTs
-                GeneralizedNewtypeDeriving
-                FlexibleContexts
-                EmptyDataDecls
-                NoMonomorphismRestriction
-                DeriveDataTypeable
-                ViewPatterns
-                TupleSections
-
-    build-depends: base
-                 , HelloYesod
-                 , yesod-test >= 1.4 && < 1.5
-                 , yesod-core
-                 , yesod
-                 , hspec
+  if impl(ghc >= 6.12.0)
+    ghc-options: -threaded -Wall -fwarn-tabs -funbox-strict-fields -O2
+                 -fno-warn-unused-do-bind
+  else
+    ghc-options: -threaded -Wall -fwarn-tabs -funbox-strict-fields -O2
