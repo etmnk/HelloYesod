@@ -3,7 +3,6 @@ module Handler.Hello where
 import Import
 
 getHelloR :: Handler Html
--- getHelloR = error "Not yet implemented: getHelloR"
 getHelloR = do
     let
         message = "Hello"
